@@ -1,0 +1,56 @@
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+ <div class="modal-dialog">
+  <div class="modal-content">
+
+   <!-- Modal Header -->
+   <div class="modal-header">
+    <h4 class="modal-title"> Add/Edit</h4>
+    <button type="button" class="close" (click)="hideModal()">&times;</button>
+   </div>
+
+   <!-- Modal body -->
+   <form name="myForm" class="form-horizontal" role="form">
+    <!-- <div class="modal-body"> -->
+    <br>
+    <div class="form-group">
+     <label for="paymentDate" class="col-sm-2 control-label">Date:</label>
+     <div class="col-sm-7">
+      <input type="date" id="paymentDate" ng-model="paymentDate" 
+      class="form-control inputstl" required>
+      <span class="form-control ng-valid.required" ng-show="myForm.paymentDate.$touched && myForm.paymentDate.$invalid" class="">The Date is required.</span>
+     </div>
+    </div>
+
+    <div class="form-group">
+     <label for="paymentDescription" class="col-sm-2 control-label">Description:</label>
+     <div class="col-sm-10">
+      <input  type="text" ngControl="paymentDescription" name="paymentDescription" ng-model="paymentDescription"
+      class="form-control inputstl" maxlength="255">
+     </div>
+    </div>
+
+    <div class="form-group">
+     <label for="paymentAmount" class="col-sm-2 control-label">Amount:</label>
+     <div class="col-sm-4">
+      <input type="number" [(ngModel)]="paymentAm" name="paymentAmount"
+       class="form-control inputstl" required>
+       <span class="form-control ng-valid.required"  
+       ng-show="myForm.paymentAmount.$touched && myForm.paymentAmount.$invalid">The Amount is required.</span>
+     </div>
+    </div>
+    <!-- </div> -->
+   </form>
+
+   <!-- Modal footer -->
+   <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" (click)="sendModal()">Save</button>
+    <!-- <button (click)="add(pay.value); pay.value=''"></button> -->
+    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+    <!-- this button is hidden, used to close from typescript -->
+    <button type="button" id="close-modal" data-dismiss="modal" style="display: none">Close</button>
+   </div>
+  </div>
+ </div>
+</div>

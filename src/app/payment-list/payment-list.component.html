@@ -1,0 +1,13 @@
+<ul class="payments">
+ <li *ngFor="let pay of pays">
+  {{pay.description}}
+   <a (click)="edit(pay)">
+     <span class="badge">{{ pay.id || -1 }}</span>
+     <span *ngIf="pay!==editPay">{{pay.description}}</span>
+     <input *ngIf="pay===editPay" [(ngModel)]="pay.description"
+       (blur)="update()" (keyup.enter)="update()">
+   </a>
+   <button class="delete" title="delete pay"
+   (click)="delete(pay)">x</button>
+ </li>
+</ul>
