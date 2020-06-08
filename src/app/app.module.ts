@@ -1,16 +1,13 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AgGridModule } from 'ag-grid-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ExpirationPipe } from './expiration.pipe';
-import { LongitudPipe } from './longitud.pipe';
 import { ModalComponent } from './modal/modal.component';
 import { PaymentListService } from './payment-list.service';
 import { PaymentListComponent } from './payment-list/payment-list.component';
-import { PrecisionPipe } from './precision.pipe';
 import { TopBarComponent } from './top-bar/top-bar.component';
 
 @NgModule({
@@ -18,9 +15,6 @@ import { TopBarComponent } from './top-bar/top-bar.component';
     AppComponent,
     TopBarComponent,
     PaymentListComponent,
-    LongitudPipe,
-    PrecisionPipe,
-    ExpirationPipe,
     ModalComponent
   ],
   imports: [
@@ -31,6 +25,7 @@ import { TopBarComponent } from './top-bar/top-bar.component';
     AgGridModule.withComponents([])
   ],
   providers: [PaymentListService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

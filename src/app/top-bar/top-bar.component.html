@@ -1,13 +1,23 @@
-<div>
- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" (click)="showModal()">
-  Add Payment
-</button>
-<app-modal></app-modal>
-<div class="edit-user-list-filter">
-</div>
-<div>
- <span>
-  Total Amount:
-  {{totalAmount}}
- </span>
+<div class="card container">
+  <div class="card-head">
+    <div class="row">
+      <div class="col-sm">
+        <br>
+        <button class="btn btn-primary btn-sm" title="add pay"
+        data-toggle="modal" data-target="#myModal"
+          (click)="showModal()">New</button>
+          &nbsp;
+        <button class="btn btn-primary btn-sm" type="button" 
+        (ngModelChange)="onChange()">Add</button>
+      </div>
+      <div class="col-sm"><br></div>
+      <div class="col-sm"><br></div>
+      <div class="col-sm">
+        <app-modal></app-modal>
+        <div>
+          <h6>Total Amount: {{totalAmount | currency}}</h6>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

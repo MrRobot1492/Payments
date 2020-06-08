@@ -1,6 +1,6 @@
 export interface Pay {
-  id: number;
+  _id: string;
   description: string;
-  date:Date;
-  amount:number;
+  date: string;
+  amount: number;
 }

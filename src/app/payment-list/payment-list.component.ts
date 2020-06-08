@@ -1,62 +1,79 @@
 import { Component, OnInit } from '@angular/core';
-import { PaymentListService } from './../payment-list.service';
+import { PaymentService } from '../services/payment.service';
+import { AppError } from './../common/validators/app-error';
+import { BadRequestError } from './../common/validators/bad-request-error';
+import { NotFoundError } from './../common/validators/not-found-error';
+import { TopBarChangedEventArgs } from './../top-bar/top-bar.component';
 import { Pay } from './pay';
 
 @Component({
-  selector: 'app-payment-list',
+  selector: 'payment-list',
   templateUrl: './payment-list.component.html',
   styleUrls: ['./payment-list.component.css'],
-  providers: [PaymentListService],
+  providers: [PaymentService],
 })
 export class PaymentListComponent implements OnInit {
   pays: Pay[];
   editPay: Pay;
-  constructor(private payService: PaymentListService) {}
+  constructor(private payService: PaymentService) {}
   ngOnInit() {
     this.getPays();
   }
 
   getPays(): void {
-    this.payService.getPays().subscribe((pays) => (this.pays = pays));
-  }
-
-  add(payDate: Date, amount: number, description?: string): void {
-    this.editPay = undefined;
-    if (!payDate || !amount) {
-      return;
-    }
-
-    const newPay: Pay = {description,amount } as Pay;
-    this.payService.addPay(newPay).subscribe((pay) => this.pays.push(pay));
+    this.payService.getAll()
+        .subscribe(
+          pays => {
+            this.pays=pays as any[];
+            console.log(pays);
+          },
+          (error:AppError)=> {
+            if(error instanceof BadRequestError)
+              alert('The server reported a BadRequest');
+            else throw error;
+          });
   }
 
   delete(pay: Pay): void {
-    this.pays = this.pays.filter((h) => h !== pay);
-    this.payService.deletePay(pay.id).subscribe();
+    this.payService.delete(pay._id).subscribe(
+      response =>{
+        let index = this.pays.indexOf(pay);
+        this.pays.splice(index,1);
+        console.log(response);
+      },
+      (error:AppError)=>{
+        if(error instanceof NotFoundError) alert('This payment was deleted');
+        else throw error;
+      }
+    );
   }
 
-  edit(pay: Pay) {
-    this.editPay = pay;
+  update(pay: Pay): void {
+    this.payService.update(pay).subscribe(
+      response =>{
+        console.log(response);
+      },
+      (error:AppError)=>{
+        if(error instanceof BadRequestError) alert('Bad Request error');
+        else throw error;
+      }
+    );
   }
 
-  search(searchTerm: string) {
-    this.editPay = undefined;
-    if (searchTerm) {
-      this.payService
-        .searchPays(searchTerm)
-        .subscribe((pays) => (this.pays = pays));
-    }
+  onTopChanged(eventArgs: TopBarChangedEventArgs){
+    console.log('Top Changed', eventArgs);
   }
 
-  update() {
-    if (this.editPay) {
-      this.payService.updatePay(this.editPay).subscribe((pay) => {
-        const ix = pay ? this.pays.findIndex((h) => h.id === pay.id) : -1;
-        if (ix > -1) {
-          this.pays[ix] = pay;
-        }
-      });
-      this.editPay = undefined;
-    }
-  }
+  // activate(){
+  //   readonly="true"
+  // }
+
+  // search(searchTerm: string) {
+  //   this.editPay = undefined;
+  //   if (searchTerm) {
+  //     this.payService
+  //       .searchPays(searchTerm)
+  //       .subscribe((pays) => (this.pays = pays));
+  //   }
+  // }
 }

@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { HandleError } from '../app/http-error-handler.service';
 import { Pay } from './payment-list/pay';
 
@@ -42,9 +43,12 @@ export class PaymentListService {
   }
 
     getPays (): Observable<Pay[]> {
-      return this.http.get<Pay[]>(this.api)
+      console.log(this.api);
+      return this.http
+         .get<Pay[]>(this.api)
         .pipe(
-          //catchError(this.handleError('getPays', []))
+          catchError(
+            this.handleError('getPays', []))
         );
     }
   
